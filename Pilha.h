@@ -38,10 +38,12 @@
 		}
 
 		void pushBaralhoBottom(Baralho* b) {
-			b->base->prox = b->topo;
-			b->base = b->base->prox;
-			b->topo = b->base->prox;
-			b->base->prox = NULL;
+			b->base->ant = b->topo;
+			b->topo->prox = b->base;
+			b->base = b->topo;
+			b->topo = b->topo->ant;
+			b->topo->prox = NULL;
+			b->base->ant = NULL; 
 		}
 	/* [FIM] Insercao no Baralho */
 
@@ -59,10 +61,11 @@
 
 	/* [INI] Impressao */
 		void imprimiBaralho(Baralho *b) {
-			Carta* aux = b->topo;
+			Carta* aux = b->base;
 			while(aux != NULL) {
-				printf("Baralho de: %d\n", aux->num);
-				aux = aux->ant;
+				printf(" %d", aux->num);
+				if(aux->prox != NULL) printf(",");
+				aux = aux->prox;
 			}
 		}
 	/* [FIM] Impressao */
@@ -107,15 +110,18 @@
 
 
 	/* [INI] Impressao */
-		void imprimiFila(Fila *f) {
+		void imprimiFila(Fila *f, Fila *c) {
 			Node* aux = f->inicio;
-			int i = 1;
+			Node* cem = c->inicio;
 			while(aux != NULL) {
-				printf("(%d) Fila:\n", i);
+				printf("Discarded cards:");
+				imprimiBaralho(cem->baralho);
+				printf("\n");
+				printf("Remaining card:");
 				imprimiBaralho(aux->baralho);
-				printf("\n\n");
+				printf("\n");
 				aux = aux->ant;
-				i++;
+				cem = cem->ant;
 			}
 		}
 	/* [FIM] Impressao */
