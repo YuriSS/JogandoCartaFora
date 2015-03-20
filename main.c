@@ -4,25 +4,15 @@
 
 int main() {
 
-	Baralho* baralho = novoBaralho();
-
-	pushBaralho(baralho, 3);
-	pushBaralho(baralho, 5);
-	pushBaralho(baralho, 2);
-	pushBaralho(baralho, 8);
-
-	rmvBaralho(baralho);
-	pushBaralhoBottom(baralho);
-
-	imprimiBaralho(baralho);
-
-	/*Fila fila;
+	Fila fila;
 	novaFila(&fila);
+
+	Fila cemiterio;
+	novaFila(&cemiterio);
 
 	int play = 1;
 	int i;
 	while(play != 0) {
-		printf("Digite quantidade o baralho: ");
 		scanf("%d", &play);
 		if(play > 0 && play <= 50) {
 			Baralho* baralho = novoBaralho();
@@ -33,7 +23,19 @@ int main() {
 		}
 	}
 
-	imprimiFila(&fila);*/
+	Node* aux = fila.inicio;
+	while(aux != NULL) {
+		Baralho* cova = novoBaralho();
+		while(aux->baralho->topo->ant != NULL) {
+			pushBaralho(cova, aux->baralho->topo->num);
+			rmvBaralho(aux->baralho);
+			pushBaralhoBottom(aux->baralho);
+		}
+		pushFila(&cemiterio, cova);
+		aux = aux->ant;
+	}
+
+	imprimiFila(&fila, &cemiterio);
 
 	/*Baralho baralho;
 	Baralho baralho2;
